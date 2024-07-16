@@ -1,5 +1,5 @@
 <template>
-  <main-page msg="Welcome to Your Vue.js App" />
+  <main-page />
 </template>
 
 <script>
@@ -18,11 +18,17 @@ export default {
   margin: 0;
   padding: 0;
 }
+
+html {
+  font-size: 62.5%;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   background-color: #212529;
+  color: #fff;
 }
 </style>

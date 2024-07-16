@@ -1,14 +1,86 @@
 <template>
-  <div class="container sidebar"><p>Test</p></div>
+  <div class="container sidebar">
+    <header>
+      <div class="box">
+        <h1>Gemini</h1>
+      </div>
+    </header>
+    <section>
+      <button class="new-conversation">New Schedule</button>
+      <div v-for="item in show" :key="item" class="list-name">
+        <a href="#">{{ item }}</a>
+      </div>
+    </section>
+  </div>
 </template>
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+
+const show = ref(["aaa", "bbb", "ccc"]);
+</script>
 <style scoped>
+h1 {
+  font-size: 1.8rem;
+}
 .container.sidebar {
-  width: calc(100% - 20px);
-  height: calc(100% - 10px);
-  padding: 10px 20px 0px 10px;
+  width: calc(100% - 2rem);
+  height: calc(100% - 2rem);
+  padding: 2rem 1rem 0px 1rem;
   color: #fff;
 
   background-color: #343a40;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.list-name {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  margin-bottom: 1.6rem;
+  height: 2.4rem;
+  padding: 0.8rem;
+
+  border-radius: 9px;
+}
+
+.list-name a {
+  text-decoration: none;
+  font-size: 1.6rem;
+  color: #fff;
+}
+
+.list-name:hover {
+  cursor: pointer;
+  background-color: #adb5bd;
+}
+
+.new-conversation {
+  border-radius: 9px;
+  cursor: pointer;
+  width: 100%;
+  height: 3rem;
+  background-color: #343a40;
+  font-size: 1.6rem;
+  color: #fff;
+  border: none;
+  padding: 0.8rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.new-conversation:hover {
+  background-color: #adb5bd;
 }
 </style>
