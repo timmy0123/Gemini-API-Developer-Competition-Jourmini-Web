@@ -6,4 +6,8 @@ export default {
   conversationSelectedPlace(state) {
     return state.selectedPlace;
   },
+
+  reply(state) {
+    return state.reply;
+  },
 };
