@@ -31,4 +31,10 @@ html {
   background-color: #212529;
   color: #fff;
 }
+
+.horizontal-line {
+  border-bottom: 1px solid #adb5bd;
+  width: 100%;
+  margin-bottom: 1.6rem;
+}
 </style>

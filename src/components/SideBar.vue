@@ -7,6 +7,7 @@
     </header>
     <section>
       <button class="new-conversation">New Schedule</button>
+      <div class="horizontal-line"></div>
       <div v-for="item in show" :key="item" class="list-name">
         <a href="#">{{ item }}</a>
       </div>
@@ -74,6 +75,7 @@ h1 {
   color: #fff;
   border: none;
   padding: 0.8rem;
+  margin-bottom: 1.6rem;
 
   display: flex;
   align-items: center;

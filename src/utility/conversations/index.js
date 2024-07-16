@@ -10,6 +10,9 @@ export default {
         {
           user: "Give me some suggestion",
         },
+        {
+          system: "lorem ipsum dolor sit amet",
+        },
       ],
       selectedPlace: [],
       reply: {
@@ -19,7 +22,7 @@ export default {
       },
     };
   },
-  getters: conversationGetter.getters,
-  actions: conversationAction.actions,
-  mutations: conversationMutation.mutations,
+  getters: conversationGetter,
+  actions: conversationAction,
+  mutations: conversationMutation,
 };
