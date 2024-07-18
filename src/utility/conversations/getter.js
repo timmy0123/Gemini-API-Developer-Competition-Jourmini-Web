@@ -1,10 +1,9 @@
 export default {
   conversationHistory(state) {
-    console.log(state.history);
     return state.history;
   },
 
-  conversationSelectedPlace(state) {
+  getSelectedPlace(state) {
     return state.selectedPlace;
   },
 };

@@ -3,9 +3,14 @@
     <div class="dialogs">
       <div v-for="(obj, index) in history" :key="index" class="dialog">
         <div v-for="(value, key) in obj" :key="key">
-          <dialog-box :role="key">
+          <dialog-box :role="key" v-if="key !== 'suggestion'">
             <template #default>
               <p v-html="formatDialog(value)"></p>
+            </template>
+          </dialog-box>
+          <dialog-box :role="key" v-else-if="key === 'suggestion'">
+            <template #default>
+              <suggestion-box :suggestion="value"></suggestion-box>
             </template>
           </dialog-box>
         </div>
@@ -39,7 +44,7 @@
         </svg>
       </div>
     </div>
-    <div class="folder">
+    <div class="folder" @click="handleClickFolder">
       <div class="item item-number" v-if="selectedPlaceNumber > 0">
         {{ selectedPlaceNumber }}
       </div>
@@ -64,20 +69,35 @@
         </g>
       </svg>
     </div>
+    <selected-place
+      v-if="showSelectedPlace"
+      @close="showSelectedPlace = false"
+    ></selected-place>
   </div>
 </template>
 <script setup>
 import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import DialogBox from "./ui/DialogBox.vue";
+import SuggestionBox from "./suggestion/SuggestionBox.vue";
+import SelectedPlace from "./selected/SelectedPlace.vue";
 
 let rows = ref(1);
-let selectedPlaceNumber = ref(1);
 let inputValue = ref("");
+let showSelectedPlace = ref(false);
 const store = useStore();
 const history = computed(
   () => store.getters["conversations/conversationHistory"]
 );
+
+const selectedPlaceNumber = computed(
+  () => store.getters["conversations/getSelectedPlace"].length
+);
+
+const handleClickFolder = () => {
+  showSelectedPlace.value = !showSelectedPlace.value;
+  console.log(showSelectedPlace.value);
+};
 
 const formatDialog = (dialog) => dialog.replace(/\n/g, "<br>");
 
@@ -200,6 +220,10 @@ p {
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
+}
+
+.folder:hover {
+  cursor: pointer;
 }
 
 .item.item-number {

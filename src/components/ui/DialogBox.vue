@@ -22,7 +22,7 @@ const props = defineProps({
   align-items: center;
 
   width: 60%;
-  margin: 0 auto;
+  margin: 0.5rem auto;
 }
 .dialog-box {
   max-width: 80%;
