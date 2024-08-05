@@ -1,9 +1,12 @@
 <template>
   <div
     class="container"
-    :class="{ user: props.role === 'user', system: props.role != 'user' }"
+    :class="{
+      user: props.role === 'user',
+      system: props.role != 'user',
+    }"
   >
-    <div class="dialog-box">
+    <div class="dialog-box" :class="{ schedule: props.schedule }">
       <slot></slot>
     </div>
   </div>
@@ -13,6 +16,10 @@ import { defineProps } from "vue";
 
 const props = defineProps({
   role: String,
+  schedule: {
+    type: Boolean,
+    default: false,
+  },
 });
 </script>
 
@@ -33,6 +40,10 @@ const props = defineProps({
 
   display: flex;
   justify-content: flex-start;
+}
+
+.schedule {
+  width: 100%;
 }
 
 .user {

@@ -3,14 +3,27 @@
     <div class="dialogs">
       <div v-for="(obj, index) in history" :key="index" class="dialog">
         <div v-for="(value, key) in obj" :key="key">
-          <dialog-box :role="key" v-if="key !== 'suggestion'">
-            <template #default>
-              <p v-html="formatDialog(value)"></p>
-            </template>
-          </dialog-box>
-          <dialog-box :role="key" v-else-if="key === 'suggestion'">
+          <dialog-box :role="key" v-if="key === 'suggestion'">
             <template #default>
               <suggestion-box :suggestion="value"></suggestion-box>
+            </template>
+          </dialog-box>
+          <dialog-box
+            :role="key"
+            :schedule="true"
+            v-else-if="key === 'scheduled'"
+          >
+            <template #default>
+              <schedule-box
+                :description="value.description"
+                :coordinate="value.coordinate"
+                :index="index"
+              ></schedule-box>
+            </template>
+          </dialog-box>
+          <dialog-box :role="key" v-else>
+            <template #default>
+              <p v-html="formatDialog(value)"></p>
             </template>
           </dialog-box>
         </div>
@@ -80,6 +93,7 @@ import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import DialogBox from "./ui/DialogBox.vue";
 import SuggestionBox from "./suggestion/SuggestionBox.vue";
+import ScheduleBox from "./schedule/ScheduleBox.vue";
 import SelectedPlace from "./selected/SelectedPlace.vue";
 
 let rows = ref(1);
@@ -96,14 +110,13 @@ const selectedPlaceNumber = computed(
 
 const handleClickFolder = () => {
   showSelectedPlace.value = !showSelectedPlace.value;
-  console.log(showSelectedPlace.value);
 };
 
 const formatDialog = (dialog) => dialog.replace(/\n/g, "<br>");
 
 const handleClick = (e) => {
   if (inputValue.value.trim() === "") return;
-  store.commit("conversations/sendChat", inputValue.value);
+  store.dispatch("conversations/sendChat", inputValue.value);
   rows.value = 1;
   e.target.value = "";
   inputValue.value = "";
@@ -156,6 +169,7 @@ p {
 .dialog:last-child {
   margin-bottom: 5rem;
 }
+
 .container.conversation-content {
   position: relative;
   overflow-y: hidden;

@@ -6,10 +6,10 @@
       </div>
     </header>
     <section>
-      <button class="new-conversation">New Schedule</button>
-      <div class="horizontal-line"></div>
+      <!-- <button class="new-conversation">New Schedule</button>
+      <div class="horizontal-line"></div> -->
       <div v-for="item in show" :key="item" class="list-name">
-        <a href="#">{{ item }}</a>
+        <router-link :to="'/' + item.toLowerCase()">{{ item }}</router-link>
       </div>
     </section>
   </div>
@@ -17,7 +17,7 @@
 <script setup>
 import { ref } from "vue";
 
-const show = ref(["aaa", "bbb", "ccc"]);
+const show = ref(["Explore", "Plan"]);
 </script>
 <style scoped>
 h1 {

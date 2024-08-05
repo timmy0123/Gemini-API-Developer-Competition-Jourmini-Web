@@ -6,4 +6,8 @@ export default {
   getSelectedPlace(state) {
     return state.selectedPlace;
   },
+
+  getExplorePlace(state) {
+    return state.explorePlace;
+  },
 };

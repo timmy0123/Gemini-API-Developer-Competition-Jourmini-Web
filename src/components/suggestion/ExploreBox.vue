@@ -1,36 +1,30 @@
 <template>
   <div class="suggestion-container">
-    <p>Suggestion Place for your next trip</p>
     <div class="suggestion-card">
-      <div
-        class="place-card"
-        v-for="(place, index) in props.suggestion"
-        :key="index"
-        @click="handleClick(place)"
-      >
+      <div class="place-card" @click="handleClick(props.suggestion)">
         <div class="place-name">
-          <p>{{ place.name }}</p>
+          <p>{{ props.suggestion.name }}</p>
           <input
             type="checkbox"
             :id="'checkbox_' + index"
-            :checked="getSelectedPlace1(place)"
-            @click.stop="handleSelect(place)"
-            :value="place"
+            :checked="getSelectedPlace1(props.suggestion)"
+            @click.stop="handleSelect(props.suggestion)"
+            :value="props.suggestion"
             v-if="props.needCheckbox"
           />
         </div>
         <img
-          :src="place.image"
+          :src="props.suggestion.image"
           alt="suggestion-image"
           class="suggestion-image"
         />
-        <p>{{ shortenDescription(place.description) }}</p>
+        <p>{{ shortenDescription(props.suggestion.description) }}</p>
         <detail-card
-          v-if="showDetail && displayPlace === place"
-          :name="place.name"
-          :description="place.description"
-          :image="place.image"
-          :youtubeLink="place.youtube"
+          v-if="showDetail && displayPlace === props.suggestion"
+          :name="props.suggestion.name"
+          :description="props.suggestion.description"
+          :image="props.suggestion.image"
+          :youtubeLink="props.suggestion.youtube"
           @close="showDetail = false"
         ></detail-card>
       </div>
@@ -71,7 +65,6 @@ const handleClick = (place) => {
 <style scoped>
 .suggestion-container {
   width: 100%;
-  overflow-x: scroll;
 }
 
 .suggestion-container p {
@@ -91,7 +84,7 @@ const handleClick = (place) => {
 .place-card {
   width: 30rem;
   height: 30rem;
-  padding: 1rem;
+  padding: 3rem;
   border-radius: 15px;
   background-color: #495057;
 
