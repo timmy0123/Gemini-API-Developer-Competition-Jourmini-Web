@@ -40,6 +40,21 @@ onMounted(async () => {
         title: "Marker",
       });
     }
+  } else {
+    map.value = new window.google.maps.Map(document.getElementById("map"), {
+      center: {
+        lat: 25.0374865, // 經度
+        lng: 121.5647688, // 緯度
+      },
+      zoom: 15,
+    });
+    for (let i = 0; i < props.coordinate.length; i++) {
+      new window.google.maps.Marker({
+        position: props.coordinate[i],
+        map: map.value,
+        title: "Marker",
+      });
+    }
   }
 });
 </script>
@@ -50,7 +65,7 @@ onMounted(async () => {
 
 .schedule-map {
   width: 100%;
-  height: 80rem;
+  height: 50rem;
   border-radius: 15px;
   background-color: #495057;
 }

@@ -87,7 +87,7 @@
       ></selected-place>
     </div>
     <div class="map">
-      <h1 class="h1">Test</h1>
+      <h1 class="h1">Enjoy your trip</h1>
       <google-map></google-map>
     </div>
   </div>
@@ -161,6 +161,9 @@ const handleKeyDown = (e) => {
 </script>
 
 <style scoped>
+h1 {
+  margin-bottom: 2rem;
+}
 p {
   font-size: 1.4rem;
   white-space: pre-line;
