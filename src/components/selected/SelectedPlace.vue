@@ -108,9 +108,9 @@ const handleClick = (place) => {
   overflow-x: hidden;
   padding: 2rem;
 
-  position: absolute;
+  position: fixed;
   bottom: 0;
-  right: 0;
+  right: 25%;
   transform: translate(-10%, -5%);
   background-color: #343a40;
 }
