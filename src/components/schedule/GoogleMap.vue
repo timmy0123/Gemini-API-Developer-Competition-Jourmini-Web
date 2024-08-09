@@ -4,18 +4,11 @@
   </div>
 </template>
 <script setup>
-import { defineProps, onMounted, ref } from "vue";
+import { onMounted } from "vue";
+import { useStore } from "vuex";
 import { Loader } from "@googlemaps/js-api-loader";
 
-const props = defineProps({
-  coordinate: {
-    type: Array,
-    default: () => [],
-  },
-});
-
-const map = ref(null);
-const placeId = ref(null);
+const store = useStore();
 
 onMounted(async () => {
   if (!window.google || !window.google.maps) {
@@ -27,7 +20,7 @@ onMounted(async () => {
     await loader.load();
   }
 
-  map.value = new window.google.maps.Map(document.getElementById("map"), {
+  let map = new window.google.maps.Map(document.getElementById("map"), {
     center: {
       lat: 25.0374865, // 經度
       lng: 121.5647688, // 緯度
@@ -35,34 +28,7 @@ onMounted(async () => {
     zoom: 15,
   });
 
-  for (let i = 0; i < props.coordinate.length; i++) {
-    new window.google.maps.Marker({
-      position: props.coordinate[i],
-      map: map.value,
-      title: "Marker",
-    });
-  }
-
-  let services = new window.google.maps.places.PlacesService(map.value);
-  services.textSearch(
-    {
-      query: "National Taiwan University",
-    },
-    (results, status) => {
-      if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-        // Check if results exist
-        if (results.length > 0) {
-          // Get the first place by default (you can filter based on needs)
-          const firstPlace = results[0];
-          placeId.value = firstPlace.place_id;
-        } else {
-          console.warn("No results found for the text search.");
-        }
-      } else {
-        console.error("Error performing text search:", status);
-      }
-    }
-  );
+  store.commit("conversations/setMap", map);
 });
 </script>
 <style scoped>

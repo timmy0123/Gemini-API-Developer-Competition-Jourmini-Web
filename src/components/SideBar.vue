@@ -25,7 +25,6 @@ h1 {
 }
 .container.sidebar {
   width: calc(100% - 2rem);
-  height: calc(100% - 2rem);
   padding: 2rem 1rem 0px 1rem;
   color: #fff;
 

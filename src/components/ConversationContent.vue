@@ -1,7 +1,7 @@
 <template>
   <div class="container conversation-content">
     <div class="dialogs">
-      <div v-for="(obj, index) in history" :key="index" class="dialog">
+      <div v-for="(obj, index) in history" :key="index">
         <div v-for="(value, key) in obj" :key="key">
           <dialog-box :role="key" v-if="key === 'suggestion'">
             <template #default>
@@ -56,35 +56,6 @@
           </svg>
         </div>
       </div>
-      <!-- <div class="folder" @click="handleClickFolder">
-        <div class="item item-number" v-if="selectedPlaceNumber > 0">
-          {{ selectedPlaceNumber }}
-        </div>
-        <svg
-          viewBox="-102.4 -102.4 1228.80 1228.80"
-          class="icon"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="#ffffff"
-          stroke="#ffffff"
-        >
-          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-          <g
-            id="SVGRepo_tracerCarrier"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          ></g>
-          <g id="SVGRepo_iconCarrier">
-            <path
-              fill="#ffffff"
-              d="M878.08 448H241.92l-96 384h636.16l96-384zM832 384v-64H485.76L357.504 192H128v448l57.92-231.744A32 32 0 01216.96 384H832zm-24.96 512H96a32 32 0 01-32-32V160a32 32 0 0132-32h287.872l128.384 128H864a32 32 0 0132 32v96h23.04a32 32 0 0131.04 39.744l-112 448A32 32 0 01807.04 896z"
-            ></path>
-          </g>
-        </svg>
-      </div> -->
-      <!-- <selected-place
-        v-if="showSelectedPlace"
-        @close="showSelectedPlace = false"
-      ></selected-place> -->
     </div>
     <div class="map">
       <h1 class="h1">Enjoy your trip</h1>
@@ -93,7 +64,7 @@
   </div>
 </template>
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { useStore } from "vuex";
 import DialogBox from "./ui/DialogBox.vue";
 import SuggestionBox from "./suggestion/SuggestionBox.vue";
@@ -102,21 +73,11 @@ import GoogleMap from "./schedule/GoogleMap.vue";
 
 let rows = ref(1);
 let inputValue = ref("");
-// let showSelectedPlace = ref(false);
+let response = ref(0);
 const store = useStore();
 const history = computed(
   () => store.getters["conversations/conversationHistory"]
 );
-
-// const selectedPlaceNumber = computed(
-//   () => store.getters["conversations/getSelectedPlace"].length
-// );
-
-// const handleClickFolder = () => {
-//   showSelectedPlace.value = !showSelectedPlace.value;
-// };
-
-//const formatDialog = (dialog) => dialog.replace(/\n/g, "<br>");
 
 const handleClick = (e) => {
   if (inputValue.value.trim() === "") return;
@@ -151,18 +112,26 @@ const handleKeyDown = (e) => {
     rows.value--;
   } else if (e.key === "Enter") {
     e.preventDefault();
-    store.commit("conversations/sendChat", e.target.value);
+    store.dispatch("conversations/sendChat", e.target.value);
     rows.value = 1;
     e.target.value = "";
     inputValue.value = "";
+    response.value += 1;
   }
 };
+watch(response, () => {
+  store.dispatch(
+    "conversations/setMarker",
+    history.value[history.value.length - 1].suggestion.location_info
+  );
+});
 </script>
 
 <style scoped>
 h1 {
   margin-bottom: 2rem;
 }
+
 p {
   font-size: 1.4rem;
   white-space: pre-line;
@@ -172,6 +141,7 @@ p {
 .dialogs {
   overflow-y: scroll;
   position: relative;
+  height: calc(95vh - 4.1rem);
 }
 
 .dialog:last-child {
@@ -183,7 +153,7 @@ p {
   overflow-y: hidden;
   overflow-x: hidden;
   width: calc(100% - 2rem);
-  height: calc(100% - 2rem);
+  height: 100vh;
 
   padding: 2rem 1rem 0px 1rem;
   color: #fff;
@@ -222,8 +192,8 @@ p {
 
 .upload {
   transform: translate(0, -0.5rem);
-  width: 2rem;
-  height: 2rem;
+  width: 5rem;
+  height: 5rem;
   padding: 1rem;
   border-radius: 50%;
 }

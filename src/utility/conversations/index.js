@@ -6,81 +6,7 @@ export default {
   namespaced: true,
   state() {
     return {
-      history: [
-        // {
-        //   user: "Give me some suggestion",
-        // },
-        // {
-        //   system: "lorem ipsum dolor sit amet",
-        // },
-        // {
-        //   suggestion: [
-        //     {
-        //       name: "Train Station",
-        //       description: "lorem ipsum dolor sit amet",
-        //       youtube:
-        //         "ep_LWTwK3G8",
-        //       image:
-        //         "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/TRA_Taipei_Station_and_Zhongxiao_West_Road_at_night_20210115.jpg/600px-TRA_Taipei_Station_and_Zhongxiao_West_Road_at_night_20210115.jpg",
-        //     },
-        //     {
-        //       name: "Train Station 02",
-        //       description: "lorem ipsum dolor sit amet",
-        //       youtube:
-        //         "ep_LWTwK3G8",
-        //       image:
-        //         "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/TRA_Taipei_Station_and_Zhongxiao_West_Road_at_night_20210115.jpg/600px-TRA_Taipei_Station_and_Zhongxiao_West_Road_at_night_20210115.jpg",
-        //     },
-        //     {
-        //       name: "Train Station 03",
-        //       description:
-        //         "lorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit amet",
-        //       youtube:
-        //         "ep_LWTwK3G8",
-        //       image:
-        //         "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/TRA_Taipei_Station_and_Zhongxiao_West_Road_at_night_20210115.jpg/600px-TRA_Taipei_Station_and_Zhongxiao_West_Road_at_night_20210115.jpg",
-        //     },
-        //     {
-        //       name: "Train Station 04",
-        //       description:
-        //         "lorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit amet",
-        //       youtube:
-        //         "ep_LWTwK3G8",
-        //       image:
-        //         "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/TRA_Taipei_Station_and_Zhongxiao_West_Road_at_night_20210115.jpg/600px-TRA_Taipei_Station_and_Zhongxiao_West_Road_at_night_20210115.jpg",
-        //     },
-        //     {
-        //       name: "Train Station 05",
-        //       description:
-        //         "lorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit amet",
-        //       youtube:
-        //         "ep_LWTwK3G8",
-        //       image:
-        //         "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/TRA_Taipei_Station_and_Zhongxiao_West_Road_at_night_20210115.jpg/600px-TRA_Taipei_Station_and_Zhongxiao_West_Road_at_night_20210115.jpg",
-        //     },
-        //     {
-        //       name: "Train Station 06",
-        //       description:
-        //         "lorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit ametlorem ipsum dolor sit amet",
-        //       youtube:
-        //         "ep_LWTwK3G8",
-        //       image:
-        //         "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/TRA_Taipei_Station_and_Zhongxiao_West_Road_at_night_20210115.jpg/600px-TRA_Taipei_Station_and_Zhongxiao_West_Road_at_night_20210115.jpg",
-        //     },
-        //   ],
-        // },
-        // {
-        //   scheduled: {
-        //     description: "lorem ipsum dolor sit ame",
-        //     coordinate: [
-        //       {
-        //         lat: 25.0374865, // 經度
-        //         lng: 121.5647688, // 緯度
-        //       },
-        //     ],
-        //   },
-        // },
-      ],
+      history: [],
       explorePlace: [
         {
           place_id: "ChIJH56c2rarQjQRphD9gvC8BhI",
@@ -1009,12 +935,8 @@ export default {
             "https://lh3.googleusercontent.com/places/ANXAkqHXT9otKdUpwANGJtnrlnu_x_r9kMJMD2l5Tmupgn8-WmtmJ7fE_6jObqJF5AOjxsQ-n_TEG3CFeQtabVfpB-Y5w5xpWemBWtg=s4800-w1600-h1600",
         },
       ],
-      selectedPlace: [],
-      reply: {
-        suggestion: [],
-        ask: "lorem ipsum dolor sit amet",
-        scheduled: "lorem ipsum dolor sit amet",
-      },
+      map: null,
+      markers: [],
     };
   },
   getters: conversationGetter,
