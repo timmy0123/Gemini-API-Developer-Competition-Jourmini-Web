@@ -1,47 +1,29 @@
 <template>
   <div class="suggestion-container">
     <div class="suggestion-card">
-      <div class="place-card" @click="handleClick(props.suggestion)">
+      <div
+        class="place-card"
+        :class="{ selected: seleted }"
+        @click="handleClick(props.suggestion.place_name)"
+      >
         <div class="place-name">
-          <p>{{ props.suggestion.name }}</p>
-          <input
-            type="checkbox"
-            :id="'checkbox_' + index"
-            :checked="getSelectedPlace1(props.suggestion)"
-            @click.stop="handleSelect(props.suggestion)"
-            :value="props.suggestion"
-            v-if="props.needCheckbox"
-          />
+          <h2>{{ props.suggestion.place_name }}</h2>
         </div>
         <img
-          :src="props.suggestion.image"
+          :src="props.suggestion.photo_url"
           alt="suggestion-image"
           class="suggestion-image"
         />
-        <p>{{ shortenDescription(props.suggestion.description) }}</p>
-        <detail-card
-          v-if="showDetail && displayPlace === props.suggestion"
-          :name="props.suggestion.name"
-          :description="props.suggestion.description"
-          :image="props.suggestion.image"
-          :youtubeLink="props.suggestion.youtube"
-          @close="showDetail = false"
-        ></detail-card>
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import { ref, defineProps } from "vue";
+import { defineProps, ref } from "vue";
 import { useStore } from "vuex";
-import DetailCard from "../ui/DetailCard.vue";
 
 const store = useStore();
-
-const getSelectedPlace1 = (place) =>
-  store.getters["conversations/getSelectedPlace"].includes(place);
-const handleSelect = (place) =>
-  store.dispatch("conversations/updateSelectedPlaces", place);
+const seleted = ref(false);
 
 const props = defineProps({
   suggestion: Object,
@@ -51,14 +33,9 @@ const props = defineProps({
   },
 });
 
-const shortenDescription = (description) =>
-  description.length > 90 ? description.slice(0, 90) + "..." : description;
-
-let showDetail = ref(false);
-let displayPlace = ref(null);
 const handleClick = (place) => {
-  displayPlace.value = place;
-  showDetail.value = true;
+  store.dispatch("conversations/updateSelectedPlaces", place);
+  seleted.value = true;
 };
 </script>
 
@@ -97,6 +74,11 @@ const handleClick = (place) => {
 .place-card:active {
   background-color: #6c757d;
   cursor: pointer;
+}
+
+.selected {
+  background-color: #6c757d;
+  border: 3px solid #8fbce3;
 }
 
 .suggestion-image {

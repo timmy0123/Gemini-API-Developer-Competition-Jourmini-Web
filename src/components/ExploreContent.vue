@@ -1,9 +1,20 @@
 <template>
   <div class="container explore-content">
-    <h1>Explore the famous attractions in Taiwan</h1>
+    <div class="explore-header">
+      <h1>Recommand Taipei Tourist sites</h1>
+      <router-link to="/plan" class="nav" @click="handleClick"
+        >Explore</router-link
+      >
+    </div>
     <div class="suggestion-grid">
       <div v-for="place in exploredPlaceList" :key="place">
-        <explore-box :suggestion="place" :needCheckbox="false"></explore-box>
+        <explore-box
+          :suggestion="place"
+          :needCheckbox="false"
+          v-if="
+            place != null && place.place_name != null && place.photo_url != null
+          "
+        ></explore-box>
       </div>
     </div>
   </div>
@@ -18,11 +29,43 @@ const exploredPlaceList = computed(
   () => store.getters["conversations/getExplorePlace"]
 );
 
-console.log(123);
+const selectedPlaceList = computed(
+  () => store.getters["conversations/getSelectedPlace"]
+);
 
 console.log(exploredPlaceList.value);
+
+const handleClick = () => {
+  const inputValue =
+    "I am interested on these places please give me some suggestions: \n" +
+    selectedPlaceList.value.map((place) => place).join(", ");
+  store.dispatch("conversations/sendChat", inputValue);
+};
 </script>
 <style scoped>
+.explore-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+.nav {
+  font-size: 1.4rem;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  padding: 1.5rem;
+  border: 1px solid #fff;
+}
+
+.nav:hover {
+  background-color: #d9dee3;
+  color: black;
+}
 .container.explore-content {
   position: relative;
   overflow-y: hidden;

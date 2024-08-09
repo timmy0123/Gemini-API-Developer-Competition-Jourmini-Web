@@ -2,21 +2,16 @@
   <main-page />
 </template>
 
-<script>
+<script setup>
 import MainPage from "./pages/MainPage.vue";
-
-export default {
-  name: "App",
-  components: {
-    MainPage,
-  },
-};
 </script>
 
 <style>
 * {
   margin: 0;
   padding: 0;
+
+  box-sizing: border-box;
 }
 
 html {

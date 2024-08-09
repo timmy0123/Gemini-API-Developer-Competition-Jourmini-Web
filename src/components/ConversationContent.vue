@@ -19,7 +19,7 @@
           </dialog-box>
           <dialog-box :role="key" v-else>
             <template #default>
-              <p v-html="formatDialog(value)"></p>
+              <p>{{ value }}</p>
             </template>
           </dialog-box>
         </div>
@@ -56,7 +56,7 @@
           </svg>
         </div>
       </div>
-      <div class="folder" @click="handleClickFolder">
+      <!-- <div class="folder" @click="handleClickFolder">
         <div class="item item-number" v-if="selectedPlaceNumber > 0">
           {{ selectedPlaceNumber }}
         </div>
@@ -80,11 +80,11 @@
             ></path>
           </g>
         </svg>
-      </div>
-      <selected-place
+      </div> -->
+      <!-- <selected-place
         v-if="showSelectedPlace"
         @close="showSelectedPlace = false"
-      ></selected-place>
+      ></selected-place> -->
     </div>
     <div class="map">
       <h1 class="h1">Enjoy your trip</h1>
@@ -98,26 +98,25 @@ import { useStore } from "vuex";
 import DialogBox from "./ui/DialogBox.vue";
 import SuggestionBox from "./suggestion/SuggestionBox.vue";
 import ScheduleBox from "./schedule/ScheduleBox.vue";
-import SelectedPlace from "./selected/SelectedPlace.vue";
 import GoogleMap from "./schedule/GoogleMap.vue";
 
 let rows = ref(1);
 let inputValue = ref("");
-let showSelectedPlace = ref(false);
+// let showSelectedPlace = ref(false);
 const store = useStore();
 const history = computed(
   () => store.getters["conversations/conversationHistory"]
 );
 
-const selectedPlaceNumber = computed(
-  () => store.getters["conversations/getSelectedPlace"].length
-);
+// const selectedPlaceNumber = computed(
+//   () => store.getters["conversations/getSelectedPlace"].length
+// );
 
-const handleClickFolder = () => {
-  showSelectedPlace.value = !showSelectedPlace.value;
-};
+// const handleClickFolder = () => {
+//   showSelectedPlace.value = !showSelectedPlace.value;
+// };
 
-const formatDialog = (dialog) => dialog.replace(/\n/g, "<br>");
+//const formatDialog = (dialog) => dialog.replace(/\n/g, "<br>");
 
 const handleClick = (e) => {
   if (inputValue.value.trim() === "") return;
@@ -234,14 +233,15 @@ p {
 }
 
 .folder {
+  box-sizing: border-box;
   position: fixed;
   bottom: 0;
   right: 25%;
   padding: 1rem;
-  transform: translate(-30%, 10%);
+  transform: translate(-80%, 10%);
 
-  width: 4rem;
-  height: 4rem;
+  width: 6rem;
+  height: 6rem;
   border-radius: 50%;
 }
 
