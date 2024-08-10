@@ -5,7 +5,10 @@
         <div v-for="(value, key) in obj" :key="key">
           <dialog-box :role="key" v-if="key === 'suggestion'">
             <template #default>
-              <suggestion-box :suggestion="value"></suggestion-box>
+              <suggestion-box
+                :suggestion="value"
+                @send-chat="response += 1"
+              ></suggestion-box>
             </template>
           </dialog-box>
           <dialog-box
@@ -120,10 +123,17 @@ const handleKeyDown = (e) => {
   }
 };
 watch(response, () => {
-  store.dispatch(
-    "conversations/setMarker",
+  if (
+    history.value &&
+    history.value.length > 0 &&
+    history.value[history.value.length - 1].suggestion &&
     history.value[history.value.length - 1].suggestion.location_info
-  );
+  ) {
+    store.dispatch(
+      "conversations/setMarker",
+      history.value[history.value.length - 1].suggestion.location_info
+    );
+  }
 });
 </script>
 

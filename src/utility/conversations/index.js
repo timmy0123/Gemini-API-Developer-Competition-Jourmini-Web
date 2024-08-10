@@ -937,6 +937,7 @@ export default {
       ],
       map: null,
       markers: [],
+      selectedPlace: [],
     };
   },
   getters: conversationGetter,

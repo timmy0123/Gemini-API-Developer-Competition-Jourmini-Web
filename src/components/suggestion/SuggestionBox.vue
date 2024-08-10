@@ -22,23 +22,25 @@
           ></div>
         </div>
       </div>
-      <p class="recommand-location-title">Recommand Sites</p>
-      <div class="recommand-location">
+    </div>
+    <p class="recommand-location-title">Recommand Sites</p>
+    <div class="recommand-location">
+      <div
+        class="location"
+        v-for="place in props.suggestion.location_info"
+        :key="place.place_id"
+      >
         <div
-          class="location"
-          v-for="place in props.suggestion.location_info"
-          :key="place.place_id"
+          class="place-item"
+          @mouseover="handleHover(place.place_coordinates)"
+          @click="handleRecommandPlaceClick(place)"
         >
-          <div
-            class="place-item"
-            @mouseover="handleHover(place.place_coordinates)"
-          >
-            <h2>{{ place.place_name }}</h2>
-            <img :src="place.photo_url" alt="place-image" class="place-image" />
-          </div>
+          <h2>{{ place.place_name }}</h2>
+          <img :src="place.photo_url" alt="place-image" class="place-image" />
         </div>
       </div>
     </div>
+    <button class="btn" @click="handleCompleteClick">Complete planning</button>
     <detail-card
       v-if="videoId != null"
       @close="close"
@@ -47,7 +49,7 @@
   </div>
 </template>
 <script setup>
-import { computed, ref, defineProps } from "vue";
+import { computed, ref, defineProps, defineEmits } from "vue";
 import { marked } from "marked";
 import { YoutubeIframe } from "@vue-youtube/component";
 import DetailCard from "../ui/DetailCard.vue";
@@ -63,6 +65,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(["sendChat"]);
+
 const videoId = ref(null);
 const reply = computed(() => marked(props.suggestion.plan_options));
 
@@ -71,6 +75,19 @@ const handleVideoClick = (e, video_id) => {
 };
 const close = () => {
   videoId.value = null;
+};
+
+const handleRecommandPlaceClick = (place) => {
+  emit("sendChat");
+  store.dispatch(
+    "conversations/sendChat",
+    `I am interested in ${place.place_name} ${place.place_id}`
+  );
+};
+
+const handleCompleteClick = () => {
+  emit("sendChat");
+  store.dispatch("conversations/sendChat", "Plan for me.");
 };
 
 const handleHover = (coordinates) => {
@@ -86,6 +103,9 @@ const handleHover = (coordinates) => {
 .suggestion-container {
   width: 100%;
   overflow-x: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .suggestion-container p {
@@ -166,5 +186,25 @@ const handleHover = (coordinates) => {
   height: 200px; /* Fixed height for all images */
   object-fit: cover; /* Ensures the image covers the entire area without distortion */
   border-radius: 10px; /* Optional: rounded corners */
+}
+
+.btn {
+  justify-self: start;
+  align-self: flex-start;
+  margin-top: 2rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  background-color: #3e93e8;
+  color: #fff;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  margin-top: 0.5rem;
+  height: 0.5rem;
+}
+::-webkit-scrollbar-thumb {
+  background: #e54d4d;
+  height: 0.5rem;
 }
 </style>
