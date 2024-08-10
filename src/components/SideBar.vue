@@ -2,7 +2,10 @@
   <div class="container sidebar">
     <header>
       <div class="box">
-        <h1>Gemini</h1>
+        <div class="logo">
+          <img src="icon.png" alt="logo" class="logo-img" />
+        </div>
+        <h1>Jourmine</h1>
       </div>
     </header>
     <section>
@@ -21,7 +24,7 @@ const show = ref(["Explore", "Plan"]);
 </script>
 <style scoped>
 h1 {
-  font-size: 1.8rem;
+  font-size: 2rem;
 }
 .container.sidebar {
   width: calc(100% - 2rem);
@@ -37,8 +40,21 @@ h1 {
 .box {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   gap: 1rem;
+}
+
+.logo {
+  width: 4rem;
+  height: 4rem;
+
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.logo-img {
+  width: 100%;
+  height: 100%;
 }
 
 .list-name {
