@@ -91,7 +91,6 @@ const handleCompleteClick = () => {
 };
 
 const handleHover = (coordinates) => {
-  console.log([coordinates.latitude, coordinates.longitude]);
   store.dispatch("conversations/setNewMapCenter", [
     coordinates.latitude,
     coordinates.longitude,

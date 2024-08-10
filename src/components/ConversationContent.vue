@@ -1,13 +1,13 @@
 <template>
   <div class="container conversation-content">
-    <div class="dialogs">
+    <div class="dialogs" ref="dialogsContainer">
       <div v-for="(obj, index) in history" :key="index">
         <div v-for="(value, key) in obj" :key="key">
           <dialog-box :role="key" v-if="key === 'suggestion'">
             <template #default>
               <suggestion-box
                 :suggestion="value"
-                @send-chat="response += 1"
+                @send-chat="handleSendChat"
               ></suggestion-box>
             </template>
           </dialog-box>
@@ -67,7 +67,7 @@
   </div>
 </template>
 <script setup>
-import { computed, ref, watch } from "vue";
+import { computed, ref, watch, nextTick } from "vue";
 import { useStore } from "vuex";
 import DialogBox from "./ui/DialogBox.vue";
 import SuggestionBox from "./suggestion/SuggestionBox.vue";
@@ -77,10 +77,15 @@ import GoogleMap from "./schedule/GoogleMap.vue";
 let rows = ref(1);
 let inputValue = ref("");
 let response = ref(0);
+const dialogsContainer = ref(null);
 const store = useStore();
 const history = computed(
   () => store.getters["conversations/conversationHistory"]
 );
+
+const handleSendChat = () => {
+  response.value += 1;
+};
 
 const handleClick = (e) => {
   if (inputValue.value.trim() === "") return;
@@ -134,6 +139,9 @@ watch(response, () => {
       history.value[history.value.length - 1].suggestion.location_info
     );
   }
+  nextTick(() => {
+    dialogsContainer.value.scrollTop = dialogsContainer.value.scrollHeight;
+  });
 });
 </script>
 

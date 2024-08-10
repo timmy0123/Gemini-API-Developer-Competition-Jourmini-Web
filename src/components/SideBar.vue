@@ -5,7 +5,7 @@
         <div class="logo">
           <img src="icon.png" alt="logo" class="logo-img" />
         </div>
-        <h1>Jourmine</h1>
+        <h1>Jourmini</h1>
       </div>
     </header>
     <section>
