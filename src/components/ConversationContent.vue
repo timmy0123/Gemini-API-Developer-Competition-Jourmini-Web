@@ -17,18 +17,9 @@
               ></suggestion-box>
             </template>
           </dialog-box>
-          <!-- <dialog-box
-            :role="key"
-            :schedule="true"
-            v-else-if="key === 'scheduled'"
-          >
-            <template #default>
-              <schedule-box :description="value.description"></schedule-box>
-            </template>
-          </dialog-box> -->
           <dialog-box :role="key" v-else>
             <template #default>
-              <p>{{ value }}</p>
+              <plan-box :suggestion="value"></plan-box>
             </template>
           </dialog-box>
         </div>
@@ -78,7 +69,7 @@ import { computed, ref, watch, nextTick, onMounted } from "vue";
 import { useStore } from "vuex";
 import DialogBox from "./ui/DialogBox.vue";
 import SuggestionBox from "./suggestion/SuggestionBox.vue";
-// import ScheduleBox from "./schedule/ScheduleBox.vue";
+import PlanBox from "./schedule/PlanBox.vue";
 import GoogleMap from "./schedule/GoogleMap.vue";
 
 const rows = ref(1);

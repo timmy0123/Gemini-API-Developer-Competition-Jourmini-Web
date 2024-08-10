@@ -86,9 +86,10 @@ const handleRecommandPlaceClick = async (place) => {
   emit("sendChat");
 };
 
-const handleCompleteClick = () => {
+const handleCompleteClick = async () => {
+  emit("loading");
+  await store.dispatch("conversations/startPlan", "Give me a plan");
   emit("sendChat");
-  store.dispatch("conversations/sendChat", "Plan for me.");
 };
 
 const handleHover = (coordinates) => {
@@ -117,7 +118,6 @@ const handleHover = (coordinates) => {
 .suggestion-card {
   width: 100%;
   padding: 1rem;
-  border-bottom: 2px solid #fff;
 
   display: flex;
   gap: 1rem;
@@ -126,6 +126,8 @@ const handleHover = (coordinates) => {
 .recommand-video {
   width: 100%;
   padding: 1rem;
+
+  border-top: 2px solid #fff;
 }
 
 .youtube-container {
