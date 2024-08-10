@@ -65,7 +65,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["sendChat"]);
+const emit = defineEmits(["sendChat", "loading"]);
 
 const videoId = ref(null);
 const reply = computed(() => marked(props.suggestion.plan_options));
@@ -77,12 +77,13 @@ const close = () => {
   videoId.value = null;
 };
 
-const handleRecommandPlaceClick = (place) => {
-  emit("sendChat");
-  store.dispatch(
+const handleRecommandPlaceClick = async (place) => {
+  emit("loading");
+  await store.dispatch(
     "conversations/sendChat",
-    `I am interested in ${place.place_name} ${place.place_id}`
+    `I am interested in ${place.place_name}. It's place id is ${place.place_id}`
   );
+  emit("sendChat");
 };
 
 const handleCompleteClick = () => {
@@ -128,9 +129,9 @@ const handleHover = (coordinates) => {
 }
 
 .youtube-container {
-  display: flex;
-  justify-content: center;
+  width: 100%;
   overflow-x: scroll;
+  display: flex;
   margin-top: 2rem;
 }
 

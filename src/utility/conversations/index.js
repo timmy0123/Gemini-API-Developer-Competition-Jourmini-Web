@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import conversationGetter from "./getter.js";
 import conversationAction from "./action.js";
 import conversationMutation from "./mutation.js";
@@ -938,6 +939,7 @@ export default {
       map: null,
       markers: [],
       selectedPlace: [],
+      thread_id: uuidv4(),
     };
   },
   getters: conversationGetter,

@@ -41,7 +41,8 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  gap: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .logo {

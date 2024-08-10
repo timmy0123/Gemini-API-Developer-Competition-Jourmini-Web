@@ -1,4 +1,9 @@
 <template>
+  <div class="spinner" v-if="isLoading">
+    <!-- Customize the spinner style as needed -->
+    <div class="double-bounce1"></div>
+    <div class="double-bounce2"></div>
+  </div>
   <div class="container conversation-content">
     <div class="dialogs" ref="dialogsContainer">
       <div v-for="(obj, index) in history" :key="index">
@@ -8,6 +13,7 @@
               <suggestion-box
                 :suggestion="value"
                 @send-chat="handleSendChat"
+                @loading="isLoading = true"
               ></suggestion-box>
             </template>
           </dialog-box>
@@ -34,6 +40,7 @@
           @keydown="handleKeyDown"
           :rows="rows"
           v-model="inputValue"
+          :disabled="isLoading"
         ></textarea>
         <div class="upload" @click="handleClick">
           <svg
@@ -67,16 +74,17 @@
   </div>
 </template>
 <script setup>
-import { computed, ref, watch, nextTick } from "vue";
+import { computed, ref, watch, nextTick, onMounted } from "vue";
 import { useStore } from "vuex";
 import DialogBox from "./ui/DialogBox.vue";
 import SuggestionBox from "./suggestion/SuggestionBox.vue";
 // import ScheduleBox from "./schedule/ScheduleBox.vue";
 import GoogleMap from "./schedule/GoogleMap.vue";
 
-let rows = ref(1);
-let inputValue = ref("");
-let response = ref(0);
+const rows = ref(1);
+const inputValue = ref("");
+const response = ref(0);
+const isLoading = ref(false);
 const dialogsContainer = ref(null);
 const store = useStore();
 const history = computed(
@@ -84,19 +92,26 @@ const history = computed(
 );
 
 const handleSendChat = () => {
+  isLoading.value = false;
   response.value += 1;
 };
 
-const handleClick = (e) => {
+const handleClick = async (e) => {
   if (inputValue.value.trim() === "") return;
-  store.dispatch("conversations/sendChat", inputValue.value);
+  isLoading.value = true;
+  if (history.value.length == 0) {
+    await store.dispatch("conversations/sendChat", inputValue.value);
+  } else {
+    await store.dispatch("conversations/initChat", inputValue.value);
+  }
   rows.value = 1;
   e.target.value = "";
   inputValue.value = "";
   response.value += 1;
+  isLoading.value = false;
 };
 
-const handleKeyDown = (e) => {
+const handleKeyDown = async (e) => {
   if (e.key === "Enter" && inputValue.value.trim() === "") {
     e.preventDefault();
     return;
@@ -121,14 +136,41 @@ const handleKeyDown = (e) => {
     rows.value--;
   } else if (e.key === "Enter") {
     e.preventDefault();
-    store.dispatch("conversations/sendChat", e.target.value);
+    if (inputValue.value.trim() === "") return;
+    isLoading.value = true;
+    if (history.value.length > 0) {
+      await store.dispatch("conversations/sendChat", e.target.value);
+    } else {
+      await store.dispatch("conversations/initChat", e.target.value);
+    }
     rows.value = 1;
     e.target.value = "";
     inputValue.value = "";
     response.value += 1;
+    isLoading.value = false;
   }
 };
 watch(response, () => {
+  if (
+    history.value &&
+    history.value.length > 0 &&
+    history.value[history.value.length - 1].suggestion &&
+    history.value[history.value.length - 1].suggestion.location_info
+  ) {
+    store.dispatch(
+      "conversations/setMarker",
+      history.value[history.value.length - 1].suggestion.location_info
+    );
+  }
+  nextTick(() => {
+    dialogsContainer.value.scrollTo({
+      top: dialogsContainer.value.scrollHeight,
+      behavior: "smooth",
+    });
+  });
+});
+
+onMounted(() => {
   if (
     history.value &&
     history.value.length > 0 &&
@@ -190,7 +232,7 @@ p {
   bottom: 0;
   left: 45%;
   transform: translate(-50%, 0%);
-  width: 60%;
+  width: 40%;
 
   display: flex;
   align-items: center;
@@ -201,7 +243,7 @@ p {
 
 .input-area {
   transform: translate(0, -0.5rem);
-  width: calc(60% - 1.5rem);
+  width: calc(80% - 1.5rem);
 
   max-height: 10rem;
   padding: 1rem 0px 1rem 1.5rem;
@@ -260,5 +302,39 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  margin: 100px auto;
+}
+
+.double-bounce1,
+.double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #757575;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: bounce 2s infinite ease-in-out;
+}
+
+.double-bounce2 {
+  animation-delay: -1s;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
 }
 </style>

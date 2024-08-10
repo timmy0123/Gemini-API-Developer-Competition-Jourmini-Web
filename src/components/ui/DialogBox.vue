@@ -32,7 +32,7 @@ const props = defineProps({
   margin: 0.5rem auto;
 }
 .dialog-box {
-  max-width: 80%;
+  max-width: 90%;
   padding: 1rem;
   background-color: #343a40;
 
