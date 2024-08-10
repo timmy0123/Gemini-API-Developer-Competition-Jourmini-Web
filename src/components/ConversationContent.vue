@@ -11,7 +11,7 @@
               ></suggestion-box>
             </template>
           </dialog-box>
-          <dialog-box
+          <!-- <dialog-box
             :role="key"
             :schedule="true"
             v-else-if="key === 'scheduled'"
@@ -19,7 +19,7 @@
             <template #default>
               <schedule-box :description="value.description"></schedule-box>
             </template>
-          </dialog-box>
+          </dialog-box> -->
           <dialog-box :role="key" v-else>
             <template #default>
               <p>{{ value }}</p>
@@ -71,7 +71,7 @@ import { computed, ref, watch, nextTick } from "vue";
 import { useStore } from "vuex";
 import DialogBox from "./ui/DialogBox.vue";
 import SuggestionBox from "./suggestion/SuggestionBox.vue";
-import ScheduleBox from "./schedule/ScheduleBox.vue";
+// import ScheduleBox from "./schedule/ScheduleBox.vue";
 import GoogleMap from "./schedule/GoogleMap.vue";
 
 let rows = ref(1);
@@ -93,6 +93,7 @@ const handleClick = (e) => {
   rows.value = 1;
   e.target.value = "";
   inputValue.value = "";
+  response.value += 1;
 };
 
 const handleKeyDown = (e) => {
@@ -140,7 +141,10 @@ watch(response, () => {
     );
   }
   nextTick(() => {
-    dialogsContainer.value.scrollTop = dialogsContainer.value.scrollHeight;
+    dialogsContainer.value.scrollTo({
+      top: dialogsContainer.value.scrollHeight,
+      behavior: "smooth",
+    });
   });
 });
 </script>
