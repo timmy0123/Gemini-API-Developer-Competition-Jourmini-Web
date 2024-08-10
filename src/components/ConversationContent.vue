@@ -296,9 +296,13 @@ p {
 }
 
 .spinner {
-  width: 40px;
-  height: 40px;
-  position: relative;
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  z-index: 10000;
+  bottom: 0%;
+  left: 20%;
+  transform: translate(50%, 50%);
   margin: 100px auto;
 }
 
