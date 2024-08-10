@@ -6,6 +6,7 @@
 <script setup>
 import { onMounted } from "vue";
 import { useStore } from "vuex";
+import process from "process";
 import { Loader } from "@googlemaps/js-api-loader";
 
 const store = useStore();
@@ -13,7 +14,7 @@ const store = useStore();
 onMounted(async () => {
   if (!window.google || !window.google.maps) {
     const loader = new Loader({
-      apiKey: "AIzaSyCyKyntHfK7xKO_9ELubPAVdEQVFB58fRM",
+      apiKey: process.env.VUE_APP_GOOGLE_API_KEY,
       version: "weekly",
       libraries: ["places"],
     });
