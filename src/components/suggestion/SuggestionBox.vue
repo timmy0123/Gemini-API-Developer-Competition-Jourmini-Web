@@ -185,6 +185,12 @@ const handleHover = (coordinates) => {
   border: 2px solid #adb5bd;
 }
 
+.place-item:active,
+.place-item:focus {
+  border: 2px solid #3e93e8;
+  background-color: #3e93e8;
+}
+
 .place-image {
   width: 100%;
   height: 200px; /* Fixed height for all images */
