@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "start": "http-server ./dist",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -13,6 +14,7 @@
     "@vue-youtube/core": "^0.0.6",
     "core-js": "^3.8.3",
     "google-maps-api-loader": "^1.1.1",
+    "http-server": "^14.1.1",
     "marked": "^14.0.0",
     "process": "^0.11.10",
     "uuid": "^10.0.0",
