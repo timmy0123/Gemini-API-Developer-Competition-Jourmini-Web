@@ -1,5 +1,9 @@
 # gemini-contest
 
+# Demo
+
+![Demo video](Image/Jourmini-demo.gif)
+
 ## Project setup
 
 ```
